@@ -1,5 +1,5 @@
 #
-# 2022/08/11 Python Learning
+# 2022/08/12 Python Learning
 #
 # Object oriented Programming 面向对象
 #
@@ -28,8 +28,10 @@ def test():
     Stu = Student
     s1 = Student("YJP", 99)
     s2 = Stu("XX", 100)
+    s3 = Stu("XX", 90)
     s1.get_score()
     s2.get_score()
+    s3.get_score()
 
 
 class People:
