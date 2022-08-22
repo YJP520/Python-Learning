@@ -1,8 +1,5 @@
-# Python-Learning
-2022/07/01 - Pycharm - Python Learning.
-
 # **Python Learning 2022**
----
+2022/07/01 - Pycharm - Python Learning.
 
 ## ***2022.07.01 DAY1***
 
