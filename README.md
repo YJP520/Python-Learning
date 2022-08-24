@@ -3478,3 +3478,311 @@
 
 - 模块的好处就是管理方便。
 
+#### **模块的使用**
+- 如何使用模块？
+    - 自定义模块 
+    - 导入模块：
+        - import 模块名1, 模块2...
+    - 导入之后如何使用？
+        - 模块名.类
+        - 模块名.变量
+        - 模块名.函数名(参数)
+    - 导入模块中相关的数据
+        - from 模块 import 变量,函数,类
+    - 导入之后如何使用？
+        - 可以直接使用
+
+#### **自定义模块的定义及使用**
+- 问题：在导入模块的时候，模块中的代码会被执行一遍。
+- 解决方案：在自定义模块中，新增控制代码。
+
+        if __name__ == '__main__':
+            模块执行代码
+
+测试模块MyMath：
+
+    """
+    自定义一个模块
+        实现数学的四则运算
+        两个数的加减乘除运算
+    """
+
+    def add(a, b):
+        """
+        加法运算
+        :param a:
+        :param b:
+        :return: 两个数的和
+        """
+        return a + b
+
+    def sub(a, b):
+        """
+        减法运算
+        :param a:
+        :param b:
+        :return: 两个数的差
+        """
+        return a - b
+
+    def mul(a, b):
+        """
+        乘法运算
+        :param a:
+        :param b:
+        :return: 两个数的积
+        """
+        return a * b
+
+    def div(a, b):
+        """
+        除法运算
+        :param a:
+        :param b:
+        :return: 两个数的商
+        """
+        if b != 0:
+            return a / b
+        else:
+            print("除数无意义...")
+            return 0
+
+    if __name__ == '__main__':
+        a = 10
+        b = 2
+        print("a,b的和为：%g"%add(a, b))
+        print("a,b的差为：%g"%sub(a, b))
+        print("a,b的积为：%g"%mul(a, b))
+        print("a,b的商为：%g"%div(a, b))
+
+测试代码：
+
+    # 1.导入模块的方式
+    # import random
+    # result = random.randint(1, 100)
+    # print(result)
+
+
+    # import MyMath
+    # if __name__ == '__main__':
+    #     a = 10
+    #     b = 2
+    #     print("a,b的和为：%g"%MyMath.add(a, b))
+    #     print("a,b的差为：%g"%MyMath.sub(a, b))
+    #     print("a,b的积为：%g"%MyMath.mul(a, b))
+    #     print("a,b的商为：%g"%MyMath.div(a, b))
+
+
+    # 2.导入模块中相关数据的方式
+    # from random import randint
+    # result = randint(1, 100)  # 直接使用
+    # print(result)
+
+    from MyMath import add, sub, mul, div
+    if __name__ == '__main__':
+        a = 10
+        b = 2
+        print("a,b的和为：%g"%add(a, b))
+        print("a,b的差为：%g"%sub(a, b))
+        print("a,b的积为：%g"%mul(a, b))
+        print("a,b的商为：%g"%div(a, b))
+
+#### **模块知识__all__的使用**
+- from 模块 import 变量,函数,类
+- 问题:使用这种方法导入模块的所有功能，一个一个填写，比较麻烦。
+- 解决方案：
+    - from 模块 import *
+- 默认导入模块中所有的功能
+    - 如果在模块中手动添加全局变量__all__ = []
+
+
+---
+## ***2022.08.21 DAY37***
+
+#### **python中的包**
+- 包的概念：
+    - package可以理解成一个文件夹，文件中包含一个__init__.py
+- 包的作用：
+    - 将模块归类，方便整理。
+    - 防止模块名冲突。
+- 模块中的包，名字会产生变化
+- 新的名字：包名.模块名
+
+- MyMath 和 package1.MyMath 
+
+#### **模块知识__init__.py的使用**
+- 类中\__init__()初始化方法
+- 包中，\__init__.py初始化模块
+- 首次使用包中的模块时，\__init__.py模块会被执行一次
+- \__init__.py模块可以存放什么？
+    - 一般会写一些辅助代码，方便使用模块。
+    - 在测试文件中 import 包 和 在包的__init__.py模块 import 模块
+        - 这种方式等价于:在测试文件中：使用 import 包.模块
+    - 在测试文件中 from 包 import *
+        - 这种方式等价于:在测试文件中：使用 from 包.模块 import *
+
+---
+## ***2022.08.22 DAY38***
+
+#### **模块的发布和安装**
+- 模块的发布
+    - 自定义模块，切换项目之后，不好用。
+    - 系统模块切换到新的项目中，好用。
+- sys.path
+    - 导入模块时，搜索路径列表，如果所有路径没用要导入的模块，会导致无法导入目标模块。
+- 解决方案：
+    - 手动加入自定义模块。
+    - 将自定义模块，发布到系统目录。
+
+#### **手动加入自定义模块**
+
+    sys.path.append('路径')  # 添加路径
+    # 查看路径
+    list1 = sys.path
+    for path in list1:
+        print(path)
+
+- 路径分隔符两种表示方式：1:'/', 2:'\\'
+- 先添加路径，再import
+
+#### **将自定义模块发布到系统目录**
+- 发布自定义模块的步骤
+    - 确定发布的模块(目录结构)；
+    - setup的编辑工 -- setup()
+    - 构建模块 -- python setup.py build
+    - 发布模块 -- setup.py sdist
+
+目录结构：
+
+    | -- setup.py
+    | -- package1
+        | -- 自定义模块
+
+#### **模块的安装**
+- 通过命令完成安装（推荐） 更安全
+    - 找到之前发布的压缩包，解压操作
+    - python setup.py install
+- 暴力安装
+    - 直接将要安装的包，以及模块，复制到对应的系统目录中。
+
+--- 
+## ***2022.08.23 DAY39***
+
+#### **异常**
+- 异常就是不正常，当python检测到一个错误时，解释器就无法继续执行下去了，反而出现了一些错误的提示，这就是所谓的异常。
+
+- 解决方案
+    - 加条件 if-else 增加相关的容错处理
+    - 异常处理方案
+
+            try:
+                可能出现问题的代码。
+            except:
+                如果出现问题，会执行改代码块。
+
+- 多个异常处理
+
+        try:
+            ---
+        excepr 异常1:
+            ---
+        excepr 异常2:
+            ---
+        excepr 异常3:
+            ---
+
+代码示例：
+
+    a = input("请输入被除数：")
+    b = input("请输入除数：")
+
+    try:
+        a = int(a)
+        b = int(b)
+        c = a / b
+        print('商为:%g'%c)
+    except ValueError:
+        print('数据类型有误')
+    except ZeroDivisionError:
+        print('除数不能为0')
+    except Exception:
+        print('其他异常')
+
+运行结果：
+
+    请输入被除数：6
+    请输入除数：0
+    除数不能为0
+
+
+#### **try-except-else-finally**
+
+try:
+    ---
+except 异常 as 变量:
+    ---
+else:
+    没有异常执行的代码
+finally:
+    最终一定要执行的代码
+
+测试代码：
+
+    def test2():
+        try:
+            # 打开文件
+            file = open('TestFile.txt', 'w', encoding='utf-8')
+            print('文件打开成功')
+            # 文件写入 write只能将字符串数据写入到文件
+            file.write('Hello World...')
+            # file.write([1, 2, 3])  # 报错
+        except Exception as e:
+            print(e.args)
+        else:
+            print('文件写入完毕')
+        finally:
+            # 文件关闭
+            file.close()
+            print('关闭文件，谢谢试用')
+
+    test2()
+
+#### **异常处理抛出自定义异常**
+
+测试代码:
+
+    # 抛出异常 raise 异常对象
+    # 定义一个异常类
+    class GenderException(Exception):
+        def __init__(self):
+            super().__init__()
+            self.errMsg = '性别只能设置成男或者女'
+
+    class Student():
+        def __init__(self, name, gender):
+            self.name = name
+            self.setGender(gender)
+
+        #设置性别
+        def setGender(self, gender):
+            if gender == '男' or gender == '女':
+                self.__gender = gender
+            else:
+                # 抛出异常 性别异常
+                raise GenderException()
+
+        def getGender(self):
+            return self.__gender
+        def showInfo(self):
+            print("我叫:%s, 性别:%s"%(self.name, self.__gender))
+
+
+    if __name__ == '__main__':
+        stu = Student('学生1', '男')
+        try:
+            stu.setGender('不男不女')
+        except Exception as e:
+            print(type(e))
+            print(e.args)
+            print(e.errMsg)
+        stu.showInfo()
